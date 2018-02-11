@@ -11,8 +11,14 @@ defmodule Rumbl.UserController do
 
   def show(conn, %{"id" => id}) do
     IO.inspect id
-    user = Repo.getBy User, id: id
+    user = Repo.get_by User, id: id
     IO.inspect user
     render conn, "show.html", user: user
+  end
+
+  def new(conn, _params) do 
+    changeset = User.changeset %User{}
+
+    render conn, "new.html", changeset: changeset
   end
 end
