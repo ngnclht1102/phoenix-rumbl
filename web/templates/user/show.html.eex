@@ -1,0 +1,5 @@
+<div class="jumbotron">
+    <p>Id: <%= @user.id  %><p>
+    <p>Name: <%= @user.name  %><p>
+    <p>Username: <%= @user.username  %><p>
+</div>
