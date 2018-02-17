@@ -17,7 +17,10 @@
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
             <%= if @current_user do %>
-              <li>Welcome <%= @current_user.name %>
+              <li>Welcome <%= @current_user.name %> </li>
+            <%= else %>
+              <li><%= link("Register", to: user_path(@conn, :new)) %></li>
+              <li><%= link("Login", to: session_path(@conn, :new)) %></li>
             <%= end %>
           </ul>
         </nav>
