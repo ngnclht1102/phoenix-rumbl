@@ -19,7 +19,7 @@ defmodule Rumbl.Auth do
         |> configure_session(renew: true)
     end
 
-    def logout(conn, _opts) do
+    def logout(conn) do
         conn
             |> configure_session(drop: true)
     end
