@@ -5,6 +5,8 @@ defmodule Rumbl.User do use Rumbl.Web, :model
         field :password, :string, virtual: true 
         field :password_hash, :string
 
+        has_many :videos, Rumbl.Video
+        
         timestamps
     end 
 
