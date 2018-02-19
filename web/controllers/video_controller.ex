@@ -7,8 +7,12 @@ defmodule Rumbl.VideoController do
         [conn, conn.params, conn.assigns.current_user])
   end
 
+  defp videos_of_user(user) do
+    Ecto.assoc(user, :videos)
+  end
+
   def index(conn, _params, user) do
-    videos = Repo.all(Video)
+    videos = Repo.all(videos_of_user(user))
     render(conn, "index.html", videos: videos)
   end
 
@@ -18,7 +22,8 @@ defmodule Rumbl.VideoController do
   end
 
   def create(conn, %{"video" => video_params}, user) do
-    changeset = Video.changeset(%Video{}, video_params)
+    video = Ecto.build_assoc(user, :videos);
+    changeset = Video.changeset(video, video_params)
 
     case Repo.insert(changeset) do
       {:ok, _video} ->
@@ -31,18 +36,18 @@ defmodule Rumbl.VideoController do
   end
 
   def show(conn, %{"id" => id}, user) do
-    video = Repo.get!(Video, id)
+    video = Repo.get!(videos_of_user(user), id)
     render(conn, "show.html", video: video)
   end
 
   def edit(conn, %{"id" => id}, user) do
-    video = Repo.get!(Video, id)
+    video = Repo.get!(videos_of_user(user), id)
     changeset = Video.changeset(video)
     render(conn, "edit.html", video: video, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "video" => video_params}, user) do
-    video = Repo.get!(Video, id)
+    video = Repo.get!(videos_of_user(user), id)
     changeset = Video.changeset(video, video_params)
 
     case Repo.update(changeset) do
@@ -56,7 +61,7 @@ defmodule Rumbl.VideoController do
   end
 
   def delete(conn, %{"id" => id}, user) do
-    video = Repo.get!(Video, id)
+    video = Repo.get!(videos_of_user(user), id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
